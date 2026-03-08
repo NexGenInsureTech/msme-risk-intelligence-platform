@@ -20,12 +20,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 class MSMEInput(BaseModel):
+
+    business_name: str
+    city: str
     industry: str
+
     employees: int
+    turnover_band: str
+
     machinery_dependence: int
     supplier_dependency: int
     recovery_time_days: int
-
 
 # API to Fetch Assessments
 @app.get("/")
@@ -41,17 +46,24 @@ def analyze_risk(data: MSMEInput):
     db = SessionLocal()
 
     record = MSMERecord(
-        industry=data.industry,
-        employees=data.employees,
-        machinery_dependence=data.machinery_dependence,
-        supplier_dependency=data.supplier_dependency,
-        recovery_time_days=data.recovery_time_days,
-        operational_risk=result["operational_risk"],
-        financial_risk=result["financial_risk"],
-        liability_risk=result["liability_risk"],
-        continuity_risk=result["continuity_risk"],
-        overall_score=result["overall_score"],
-        risk_level=result["risk_level"]
+        business_name=data.business_name,
+    city=data.city,
+    industry=data.industry,
+
+    employees=data.employees,
+    turnover_band=data.turnover_band,
+
+    machinery_dependence=data.machinery_dependence,
+    supplier_dependency=data.supplier_dependency,
+    recovery_time_days=data.recovery_time_days,
+
+    operational_risk=result["operational_risk"],
+    financial_risk=result["financial_risk"],
+    liability_risk=result["liability_risk"],
+    continuity_risk=result["continuity_risk"],
+
+    overall_score=result["overall_score"],
+    risk_level=result["risk_level"]
     )
 
     db.add(record)
