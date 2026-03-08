@@ -1,3 +1,5 @@
+from database import SessionLocal
+from models.msme_record import MSMERecord
 from database import engine, Base
 from models.msme_record import MSMERecord
 from fastapi import FastAPI
@@ -29,8 +31,30 @@ class MSMEInput(BaseModel):
 def root():
     return {"message": "MSME Risk Intelligence Platform API running"}
 
-
+# endpoint to analyze risk based on MSME input data
 @app.post("/analyze-risk")
 def analyze_risk(data: MSMEInput):
+
     result = calculate_risk_score(data.dict())
+
+    db = SessionLocal()
+
+    record = MSMERecord(
+        industry=data.industry,
+        employees=data.employees,
+        machinery_dependence=data.machinery_dependence,
+        supplier_dependency=data.supplier_dependency,
+        recovery_time_days=data.recovery_time_days,
+        operational_risk=result["operational_risk"],
+        financial_risk=result["financial_risk"],
+        liability_risk=result["liability_risk"],
+        continuity_risk=result["continuity_risk"],
+        overall_score=result["overall_score"],
+        risk_level=result["risk_level"]
+    )
+
+    db.add(record)
+    db.commit()
+    db.close()
+
     return result
