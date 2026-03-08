@@ -19,7 +19,5 @@ def root():
 
 @app.post("/analyze-risk")
 def analyze_risk(data: MSMEInput):
-    score = calculate_risk_score(data.dict())
-    return {
-        "risk_score": score
-    }
+    result = calculate_risk_score(data.dict())
+    return result
