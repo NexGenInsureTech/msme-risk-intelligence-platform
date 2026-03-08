@@ -27,6 +27,7 @@ class MSMEInput(BaseModel):
     recovery_time_days: int
 
 
+# API to Fetch Assessments
 @app.get("/")
 def root():
     return {"message": "MSME Risk Intelligence Platform API running"}
@@ -55,6 +56,28 @@ def analyze_risk(data: MSMEInput):
 
     db.add(record)
     db.commit()
+    db.close()
+
+    return result
+
+@app.get("/assessments")
+def get_assessments():
+
+    db = SessionLocal()
+
+    records = db.query(MSMERecord).all()
+
+    result = []
+
+    for r in records:
+        result.append({
+            "id": r.id,
+            "industry": r.industry,
+            "employees": r.employees,
+            "score": r.overall_score,
+            "risk_level": r.risk_level
+        })
+
     db.close()
 
     return result
