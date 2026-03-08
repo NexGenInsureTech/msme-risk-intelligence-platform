@@ -1,9 +1,13 @@
+from database import engine, Base
+from models.msme_record import MSMERecord
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from services.risk_engine import calculate_risk_score
 
 app = FastAPI(title="MSME Risk Intelligence API")
+
+Base.metadata.create_all(bind=engine)
 
 # Enable CORS
 app.add_middleware(
