@@ -18,6 +18,8 @@ export default function Dashboard() {
       <table className="w-full border">
         <thead className="bg-gray-100">
           <tr>
+            <th className="p-2 border">Business</th>
+            <th className="p-2 border">City</th>
             <th className="p-2 border">Industry</th>
             <th className="p-2 border">Employees</th>
             <th className="p-2 border">Risk Score</th>
@@ -28,6 +30,8 @@ export default function Dashboard() {
         <tbody>
           {data.map((row: any) => (
             <tr key={row.id}>
+              <td className="border p-2">{row.business_name}</td>
+              <td className="border p-2">{row.city}</td>
               <td className="border p-2">{row.industry}</td>
               <td className="border p-2">{row.employees}</td>
               <td className="border p-2">{row.score}</td>

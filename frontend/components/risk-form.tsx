@@ -1,10 +1,15 @@
+// risk-form.tsx
+
 "use client";
 
 import { useState } from "react";
 
 export default function RiskForm({ onResult }: any) {
   const [form, setForm] = useState({
+    business_name: "",
+    city: "",
     industry: "",
+    turnover_band: "",
     employees: 0,
     machinery_dependence: 0,
     supplier_dependency: 0,
@@ -12,9 +17,11 @@ export default function RiskForm({ onResult }: any) {
   });
 
   const handleChange = (e: any) => {
+    const { name, value } = e.target;
+
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: e.target.type === "number" ? Number(value) : value,
     });
   };
 
@@ -36,6 +43,20 @@ export default function RiskForm({ onResult }: any) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <input
+        name="business_name"
+        placeholder="Business Name"
+        onChange={handleChange}
+        className="border p-2 w-full"
+      />
+
+      <input
+        name="city"
+        placeholder="City"
+        onChange={handleChange}
+        className="border p-2 w-full"
+      />
+
+      <input
         name="industry"
         placeholder="Industry"
         onChange={handleChange}
@@ -45,7 +66,14 @@ export default function RiskForm({ onResult }: any) {
       <input
         name="employees"
         type="number"
-        placeholder="Number of Employees"
+        placeholder="Employees"
+        onChange={handleChange}
+        className="border p-2 w-full"
+      />
+
+      <input
+        name="turnover_band"
+        placeholder="Turnover Band"
         onChange={handleChange}
         className="border p-2 w-full"
       />
