@@ -1,3 +1,15 @@
+def classify_risk(score):
+
+    if score <= 30:
+        return "Low Risk"
+    elif score <= 60:
+        return "Moderate Risk"
+    elif score <= 80:
+        return "Elevated Risk"
+    else:
+        return "High Risk"
+
+
 def calculate_risk_score(data):
 
     operational_risk = data["machinery_dependence"] * 5
@@ -12,10 +24,15 @@ def calculate_risk_score(data):
         + continuity_risk * 0.20
     )
 
+    overall_score = round(overall_score, 2)
+
+    risk_level = classify_risk(overall_score)
+
     return {
         "operational_risk": round(operational_risk, 2),
         "financial_risk": round(financial_risk, 2),
         "liability_risk": round(liability_risk, 2),
         "continuity_risk": round(continuity_risk, 2),
-        "overall_score": round(overall_score, 2)
+        "overall_score": overall_score,
+        "risk_level": risk_level
     }
